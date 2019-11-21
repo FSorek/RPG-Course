@@ -3,6 +3,7 @@ using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 namespace a_player
@@ -11,21 +12,20 @@ namespace a_player
     {
         public static class Helpers
         {
-            public static void CreateFloor()
+            public static IEnumerator LoadMovementTestsScene()
             {
+                var operation = SceneManager.LoadSceneAsync("MovementTests");
+                while (operation.isDone == false)
+                    yield return null;
+                
                 var floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 floor.transform.localScale = new Vector3(50, 0.1f, 50);
                 floor.transform.position = Vector3.zero;
             }
 
-            public static Player CreatePlayer()
+            public static Player GetPlayer()
             {
-                var playerGO = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                playerGO.AddComponent<CharacterController>();
-                playerGO.AddComponent<NavMeshAgent>();
-                playerGO.transform.position = new Vector3(0, 5f, 0);
-            
-                Player player = playerGO.AddComponent<Player>();
+                Player player = GameObject.FindObjectOfType<Player>();
             
                 var testPlayerInput = Substitute.For<IPlayerInput>();
                 player.PlayerInput = testPlayerInput;
@@ -43,8 +43,8 @@ namespace a_player
         [UnityTest]
         public IEnumerator moves_forward()
         {
-            Helpers.CreateFloor();
-            var player = Helpers.CreatePlayer();
+            yield return Helpers.LoadMovementTestsScene();
+            var player = Helpers.GetPlayer();
             
             player.PlayerInput.Vertical.Returns(1f);
 
@@ -62,8 +62,8 @@ namespace a_player
             [UnityTest]
             public IEnumerator moves_right()
             {
-                Helpers.CreateFloor();
-                var player = Helpers.CreatePlayer();
+                yield return Helpers.LoadMovementTestsScene();
+                var player = Helpers.GetPlayer();
                 
                 player.PlayerInput.Horizontal.Returns(1f);
 
@@ -82,8 +82,8 @@ namespace a_player
             [UnityTest]
             public IEnumerator turns_left()
             {
-                Helpers.CreateFloor();
-                var player = Helpers.CreatePlayer();
+                yield return Helpers.LoadMovementTestsScene();
+                var player = Helpers.GetPlayer();
 
                 player.PlayerInput.MouseX.Returns(-1f);
                 var originalRotation = player.transform.rotation;
@@ -92,6 +92,24 @@ namespace a_player
 
                 float turnAmount = Helpers.CalculateTurn(originalRotation, player.transform.rotation);
                 Assert.Less(turnAmount, 0);
+            }
+        }
+        
+        public class with_positive_mouse_x
+        {
+            [UnityTest]
+            public IEnumerator turns_left()
+            {
+                yield return Helpers.LoadMovementTestsScene();
+                var player = Helpers.GetPlayer();
+
+                player.PlayerInput.MouseX.Returns(1f);
+                var originalRotation = player.transform.rotation;
+                
+                yield return new WaitForSeconds(0.5f);
+
+                float turnAmount = Helpers.CalculateTurn(originalRotation, player.transform.rotation);
+                Assert.Greater(turnAmount, 0);
             }
         }
     }
