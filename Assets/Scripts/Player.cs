@@ -8,29 +8,24 @@ public class Player : MonoBehaviour
     public IPlayerInput PlayerInput { get; set; } = new PlayerInput();
 
     private CharacterController chatacterController;
-    
+    private IMover mover;
+    private Rotator rotator;
+
     private void Awake()
     {
         chatacterController = GetComponent<CharacterController>();
+        mover = new Mover(this);
+        rotator = new Rotator(this);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        Vector3 moveInput = new Vector3(PlayerInput.Horizontal,0, PlayerInput.Vertical);
-        Vector3 movement = transform.rotation * moveInput;
-        chatacterController.SimpleMove(movement);
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+            mover = new Mover(this);
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+            mover = new NavmeshMover(this);
+        mover.Tick();
+        rotator.Tick();
     }
-}
-
-public class PlayerInput : IPlayerInput
-{
-    public float Vertical => Input.GetAxis("Vertical");
-    public float Horizontal => Input.GetAxis("Horizontal");
-}
-
-public interface IPlayerInput
-{
-    float Vertical { get; }
-    float Horizontal { get; }
 }
