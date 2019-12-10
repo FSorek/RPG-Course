@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class ItemComponent : MonoBehaviour
 {
-    private float lastUseTime;
+    protected float nextUseTime;
 
     public abstract void Use();
-    public bool CanUse => Time.deltaTime >= lastUseTime;
+    public bool CanUse => Time.deltaTime >= nextUseTime;
 }
