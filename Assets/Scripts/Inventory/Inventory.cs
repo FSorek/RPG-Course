@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] private Transform rightHand;
     private List<Item> items = new List<Item>();
     private Transform itemRoot;
+    
+    public Item ActiveItem { get; private set; }
 
     private void Awake()
     {
@@ -23,5 +26,9 @@ public class Inventory : MonoBehaviour
     private void Equip(Item item)
     {
         Debug.Log($"Equipped item {item.gameObject.name}");
+        item.transform.SetParent(rightHand);
+        item.transform.localPosition = Vector3.zero;
+        item.transform.localRotation = Quaternion.identity;
+        ActiveItem = item;
     }
 }

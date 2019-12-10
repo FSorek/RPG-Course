@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class Item : MonoBehaviour
 {
     private bool wasPickedUp;
+    [SerializeField] private UseAction[] actions;
+    public UseAction[] Actions => actions;
 
     private void OnTriggerEnter(Collider other)
     {
