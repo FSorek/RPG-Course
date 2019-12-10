@@ -12,7 +12,7 @@ public class InventoryUse : MonoBehaviour
 
     private void Update()
     {
-        if(inventory.ActiveItem == null)
+        if(inventory.ActiveItem == null || inventory.ActiveItem.Actions == null)
             return;
 
         foreach (UseAction action in inventory.ActiveItem.Actions)

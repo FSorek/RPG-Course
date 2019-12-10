@@ -7,7 +7,7 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     private bool wasPickedUp;
-    [SerializeField] private UseAction[] actions;
+    [SerializeField] private UseAction[] actions = new UseAction[0];
     public UseAction[] Actions => actions;
 
     private void OnTriggerEnter(Collider other)
