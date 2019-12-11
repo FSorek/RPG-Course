@@ -7,8 +7,11 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     private bool wasPickedUp;
+    [SerializeField] private CrosshairDefinition crosshairDefinition;
     [SerializeField] private UseAction[] actions = new UseAction[0];
     public UseAction[] Actions => actions;
+
+    public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
 
     private void OnTriggerEnter(Collider other)
     {
