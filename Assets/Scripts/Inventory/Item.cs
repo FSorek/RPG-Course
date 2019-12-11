@@ -9,9 +9,12 @@ public class Item : MonoBehaviour
     private bool wasPickedUp;
     [SerializeField] private CrosshairDefinition crosshairDefinition;
     [SerializeField] private UseAction[] actions = new UseAction[0];
+    [SerializeField] private Sprite icon;
+
+    public Sprite Icon => icon;
+    public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
     public UseAction[] Actions => actions;
 
-    public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
 
     private void OnTriggerEnter(Collider other)
     {
