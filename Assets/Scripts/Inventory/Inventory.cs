@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour
         Equip(item);
     }
 
-    private void Equip(Item item)
+    public void Equip(Item item)
     {
         Debug.Log($"Equipped item {item.gameObject.name}");
         item.transform.SetParent(rightHand);

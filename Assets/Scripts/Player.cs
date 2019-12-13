@@ -16,16 +16,22 @@ public class Player : MonoBehaviour
         chatacterController = GetComponent<CharacterController>();
         mover = new Mover(this);
         rotator = new Rotator(this);
+        PlayerInput.MoveTypeToggle += MoveTypeToggle;
+    }
+
+    private void MoveTypeToggle()
+    {
+        if(mover is NavmeshMover)
+            mover = new Mover(this);
+        else
+            mover = new NavmeshMover(this);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-            mover = new Mover(this);
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-            mover = new NavmeshMover(this);
         mover.Tick();
         rotator.Tick();
+        PlayerInput.Tick();
     }
 }
