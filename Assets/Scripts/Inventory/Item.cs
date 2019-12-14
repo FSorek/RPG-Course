@@ -42,9 +42,16 @@ public class ItemEditor : Editor
     {
         Item item = (Item) target;
 
+        DrawIcon(item);
+        DrawCrosshair(item);
+        DrawActions();
+    }
+
+    private void DrawIcon(Item item)
+    {
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Icon", GUILayout.Width(120));
-        if(item.Icon != null)
+        if (item.Icon != null)
         {
             GUILayout.Box(item.Icon.texture, GUILayout.Width(60), GUILayout.Height(60));
         }
@@ -55,15 +62,19 @@ public class ItemEditor : Editor
 
         using (var property = serializedObject.FindProperty("icon"))
         {
-            var sprite = (Sprite)EditorGUILayout.ObjectField(item.Icon, typeof(Sprite), false);
+            var sprite = (Sprite) EditorGUILayout.ObjectField(item.Icon, typeof(Sprite), false);
             property.objectReferenceValue = sprite;
             serializedObject.ApplyModifiedProperties();
         }
+
         EditorGUILayout.EndHorizontal();
-        
+    }
+
+    private void DrawCrosshair(Item item)
+    {
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Crosshair", GUILayout.Width(120));
-        if(item.CrosshairDefinition?.Sprite != null)
+        if (item.CrosshairDefinition != null && item.CrosshairDefinition.Sprite != null)
         {
             GUILayout.Box(item.CrosshairDefinition.Sprite.texture, GUILayout.Width(60), GUILayout.Height(60));
         }
@@ -74,16 +85,53 @@ public class ItemEditor : Editor
 
         using (var property = serializedObject.FindProperty("crosshairDefinition"))
         {
-            var crosshairDefinition = (CrosshairDefinition)EditorGUILayout.ObjectField(
-                item.CrosshairDefinition, 
-                typeof(CrosshairDefinition), 
+            var crosshairDefinition = (CrosshairDefinition) EditorGUILayout.ObjectField(
+                item.CrosshairDefinition,
+                typeof(CrosshairDefinition),
                 false);
-            
+
             property.objectReferenceValue = crosshairDefinition;
             serializedObject.ApplyModifiedProperties();
         }
+
         EditorGUILayout.EndHorizontal();
-        
-        base.OnInspectorGUI();
+    }
+
+    private void DrawActions()
+    {
+        using (var actionsProperty = serializedObject.FindProperty("actions"))
+        {
+            if (GUILayout.Button("Add Action", GUILayout.Width(105)))
+            {
+                actionsProperty.InsertArrayElementAtIndex(actionsProperty.arraySize);
+            }
+            for (int i = 0; i < actionsProperty.arraySize; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("x", GUILayout.Width(20)))
+                {
+                    actionsProperty.DeleteArrayElementAtIndex(i);
+                    serializedObject.ApplyModifiedProperties();
+                    break;
+                }
+
+                var action = actionsProperty.GetArrayElementAtIndex(i);
+                if (action != null)
+                {
+                    var useModeProperty = action.FindPropertyRelative("UseMode");
+                    var targetComponentProperty = action.FindPropertyRelative("TargetComponent");
+
+                    useModeProperty.enumValueIndex = (int) (UseMode) EditorGUILayout.EnumPopup(
+                        (UseMode) useModeProperty.enumValueIndex,
+                        GUILayout.Width(80));
+
+                    EditorGUILayout.PropertyField(targetComponentProperty, GUIContent.none, false);
+
+                    serializedObject.ApplyModifiedProperties();
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+        }
     }
 }
