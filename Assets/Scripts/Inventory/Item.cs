@@ -53,7 +53,35 @@ public class ItemEditor : Editor
             EditorGUILayout.HelpBox("No Icon Selected", MessageType.Warning);
         }
 
-        EditorGUILayout.ObjectField(item.Icon, typeof(Sprite), false);
+        using (var property = serializedObject.FindProperty("icon"))
+        {
+            var sprite = (Sprite)EditorGUILayout.ObjectField(item.Icon, typeof(Sprite), false);
+            property.objectReferenceValue = sprite;
+            serializedObject.ApplyModifiedProperties();
+        }
+        EditorGUILayout.EndHorizontal();
+        
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Crosshair", GUILayout.Width(120));
+        if(item.CrosshairDefinition?.Sprite != null)
+        {
+            GUILayout.Box(item.CrosshairDefinition.Sprite.texture, GUILayout.Width(60), GUILayout.Height(60));
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("No Crosshair Selected", MessageType.Warning);
+        }
+
+        using (var property = serializedObject.FindProperty("crosshairDefinition"))
+        {
+            var crosshairDefinition = (CrosshairDefinition)EditorGUILayout.ObjectField(
+                item.CrosshairDefinition, 
+                typeof(CrosshairDefinition), 
+                false);
+            
+            property.objectReferenceValue = crosshairDefinition;
+            serializedObject.ApplyModifiedProperties();
+        }
         EditorGUILayout.EndHorizontal();
         
         base.OnInspectorGUI();
