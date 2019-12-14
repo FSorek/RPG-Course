@@ -41,9 +41,9 @@ public class ItemEditor : Editor
     public override void OnInspectorGUI()
     {
         Item item = (Item) target;
-        
-        EditorGUILayout.LabelField("Custom Item Editor");
-        
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Icon", GUILayout.Width(120));
         if(item.Icon != null)
         {
             GUILayout.Box(item.Icon.texture, GUILayout.Width(60), GUILayout.Height(60));
@@ -52,6 +52,10 @@ public class ItemEditor : Editor
         {
             EditorGUILayout.HelpBox("No Icon Selected", MessageType.Warning);
         }
+
+        EditorGUILayout.ObjectField(item.Icon, typeof(Sprite), false);
+        EditorGUILayout.EndHorizontal();
+        
         base.OnInspectorGUI();
     }
 }
