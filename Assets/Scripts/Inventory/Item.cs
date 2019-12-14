@@ -43,8 +43,15 @@ public class ItemEditor : Editor
         Item item = (Item) target;
         
         EditorGUILayout.LabelField("Custom Item Editor");
-        GUILayout.Box(item.Icon.texture, GUILayout.Width(60), GUILayout.Height(60));
         
+        if(item.Icon != null)
+        {
+            GUILayout.Box(item.Icon.texture, GUILayout.Width(60), GUILayout.Height(60));
+        }
+        else
+        {
+            EditorGUILayout.HelpBox("No Icon Selected", MessageType.Warning);
+        }
         base.OnInspectorGUI();
     }
 }
