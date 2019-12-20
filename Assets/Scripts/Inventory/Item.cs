@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -44,7 +45,7 @@ public class ItemEditor : Editor
 
         DrawIcon(item);
         DrawCrosshair(item);
-        DrawActions();
+        DrawActions(item);
     }
 
     private void DrawIcon(Item item)
@@ -97,14 +98,10 @@ public class ItemEditor : Editor
         EditorGUILayout.EndHorizontal();
     }
 
-    private void DrawActions()
+    private void DrawActions(Item item)
     {
         using (var actionsProperty = serializedObject.FindProperty("actions"))
         {
-            if (GUILayout.Button("Add Action", GUILayout.Width(105)))
-            {
-                actionsProperty.InsertArrayElementAtIndex(actionsProperty.arraySize);
-            }
             for (int i = 0; i < actionsProperty.arraySize; i++)
             {
                 EditorGUILayout.BeginHorizontal();
@@ -132,6 +129,33 @@ public class ItemEditor : Editor
 
                 EditorGUILayout.EndHorizontal();
             }
+
+            if (GUILayout.Button("Auto Assign Actions"))
+            {
+                List<ItemComponent> assignedItemComponents = new List<ItemComponent>();
+                for (int i = 0; i < actionsProperty.arraySize; i++)
+                {
+                    var action = actionsProperty.GetArrayElementAtIndex(i);
+                    if (action != null)
+                    {
+                        var targetComponentProperty = action.FindPropertyRelative("TargetComponent");
+                        var assignedItemComponent = targetComponentProperty.objectReferenceValue as ItemComponent;
+                        assignedItemComponents.Add(assignedItemComponent);
+                    }
+                }
+
+                foreach (var itemComponent in item.GetComponentsInChildren<ItemComponent>())
+                {
+                    if(assignedItemComponents.Contains(itemComponent)) continue;
+                    
+                    actionsProperty.InsertArrayElementAtIndex(actionsProperty.arraySize);
+                    var action = actionsProperty.GetArrayElementAtIndex(actionsProperty.arraySize - 1);
+                    var targetComponentProperty = action.FindPropertyRelative("TargetComponent");
+                    targetComponentProperty.objectReferenceValue = itemComponent;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
+
         }
     }
 }
