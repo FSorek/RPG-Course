@@ -26,6 +26,12 @@ public class Entity : MonoBehaviour, ITakeHits
         }
     }
 
+    [ContextMenu("Take Lethal Damage")]
+    private void TakeLethalDamage()
+    {
+        TakeHit(Health);
+    }
+
     private void HandleNonLethalHit()
     {
         Debug.Log("Took non-lethal damage!");

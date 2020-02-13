@@ -74,5 +74,26 @@ namespace Tests
             
             Assert.AreSame(firstState, stateMachine.CurrentState);
         }
+        
+        [Test]
+        public void transition_from_any_switches_state_when_condition_is_met()
+        {
+            var stateMachine = new StateMachine();
+            IState firstState = Substitute.For<IState>();
+            IState secondState = Substitute.For<IState>();
+
+            stateMachine.Add(firstState);
+            stateMachine.Add(secondState);
+
+            bool ShouldTransitionState() => true;
+            stateMachine.AddAnyTransition(secondState, ShouldTransitionState);
+            
+            stateMachine.SetState(firstState);
+            Assert.AreSame(firstState, stateMachine.CurrentState);
+
+            stateMachine.Tick();
+            
+            Assert.AreSame(secondState, stateMachine.CurrentState);
+        }
     }
 }

@@ -33,5 +33,25 @@ namespace state_machine
             yield return null;
             Assert.AreEqual(typeof(ChasePlayer), stateMachine.CurrentStateType);
         }
+        
+        [UnityTest] 
+        public IEnumerator switches_to_dead_state_once_health_reaches_zero()
+        { 
+            yield return Helpers.LoadEntityStateMachineTestsScene();
+
+            var stateMachine = Object.FindObjectOfType<EntityStateMachine>();
+            var entity = stateMachine.GetComponent<Entity>();
+            
+            yield return null;
+            Assert.AreEqual(typeof(Idle), stateMachine.CurrentStateType);
+            
+            entity.TakeHit(entity.Health - 1);
+            yield return null;
+            Assert.AreEqual(typeof(Idle), stateMachine.CurrentStateType);
+            
+            entity.TakeHit(entity.Health);
+            yield return null;
+            Assert.AreEqual(typeof(Dead), stateMachine.CurrentStateType);
+        }
     }
 }

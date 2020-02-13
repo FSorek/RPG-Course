@@ -6,6 +6,7 @@ public class EntityStateMachine : MonoBehaviour
 {
     private StateMachine stateMachine;
     private NavMeshAgent navMeshAgent;
+    private Entity entity;
 
     public Type CurrentStateType => stateMachine.CurrentState.GetType();
 
@@ -14,10 +15,12 @@ public class EntityStateMachine : MonoBehaviour
         var player = FindObjectOfType<Player>();
         stateMachine = new StateMachine();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        entity = GetComponent<Entity>();
         
         var idle = new Idle();
         var chasePlayer = new ChasePlayer(navMeshAgent);
         var attack = new Attack();
+        var dead = new Dead();
         
         stateMachine.Add(idle);
         stateMachine.Add(chasePlayer);
@@ -32,6 +35,8 @@ public class EntityStateMachine : MonoBehaviour
             attack, 
             () => DistanceFlat(navMeshAgent.transform.position, player.transform.position) < 2f);
         
+        stateMachine.AddAnyTransition(dead, () => entity.Health <= 0);
+        
         stateMachine.SetState(idle);
     }
 
@@ -42,5 +47,23 @@ public class EntityStateMachine : MonoBehaviour
     private void Update()
     {
         stateMachine.Tick();
+    }
+}
+
+public class Dead : IState
+{
+    public void Tick()
+    {
+        Debug.Log("Dead.");
+    }
+
+    public void OnEnter()
+    {
+        
+    }
+
+    public void OnExit()
+    {
+        
     }
 }
