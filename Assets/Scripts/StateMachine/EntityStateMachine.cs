@@ -21,11 +21,7 @@ public class EntityStateMachine : MonoBehaviour
         var chasePlayer = new ChasePlayer(navMeshAgent);
         var attack = new Attack();
         var dead = new Dead();
-        
-        stateMachine.Add(idle);
-        stateMachine.Add(chasePlayer);
-        stateMachine.Add(attack);
-        
+
         stateMachine.AddTransition(
             idle, 
             chasePlayer, 
