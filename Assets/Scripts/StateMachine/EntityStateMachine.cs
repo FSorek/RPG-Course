@@ -18,9 +18,9 @@ public class EntityStateMachine : MonoBehaviour
         entity = GetComponent<Entity>();
         
         var idle = new Idle();
-        var chasePlayer = new ChasePlayer(navMeshAgent);
+        var chasePlayer = new ChasePlayer(navMeshAgent, player);
         var attack = new Attack();
-        var dead = new Dead();
+        var dead = new Dead(entity);
 
         stateMachine.AddTransition(
             idle, 
@@ -43,23 +43,5 @@ public class EntityStateMachine : MonoBehaviour
     private void Update()
     {
         stateMachine.Tick();
-    }
-}
-
-public class Dead : IState
-{
-    public void Tick()
-    {
-        Debug.Log("Dead.");
-    }
-
-    public void OnEnter()
-    {
-        
-    }
-
-    public void OnExit()
-    {
-        
     }
 }
