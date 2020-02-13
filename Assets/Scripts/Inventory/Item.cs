@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Item : MonoBehaviour
 {
-    private bool wasPickedUp;
     [SerializeField] private CrosshairDefinition crosshairDefinition;
     [SerializeField] private UseAction[] actions = new UseAction[0];
     [SerializeField] private Sprite icon;
@@ -13,18 +12,18 @@ public class Item : MonoBehaviour
     public Sprite Icon => icon;
     public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
     public UseAction[] Actions => actions;
+    public bool WasPickedUp { get; set; }
 
 
     private void OnTriggerEnter(Collider other)
     {
-        if(wasPickedUp)
+        if(WasPickedUp)
             return;
 
         var inventory = other.GetComponent<Inventory>();
         if (inventory != null)
         {
             inventory.Pickup(this);
-            wasPickedUp = true;
         }
     }
 
