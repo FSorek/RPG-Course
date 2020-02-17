@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = System.Object;
 
 [RequireComponent(typeof(Inventory))]
 public class NpcLoot : MonoBehaviour
@@ -34,8 +35,9 @@ public class NpcLoot : MonoBehaviour
     {
         foreach (var item in inventory.Items)
         {
-            var lootItemHolder = FindObjectOfType<LootItemHolder>();
-            lootItemHolder.TakeItem(item);
+            LootSystem.Drop(item, transform);
+            //var lootItemHolder = FindObjectOfType<LootItemHolder>();
+            //lootItemHolder.TakeItem(item);
         }
         inventory.Items.Clear();
     }
