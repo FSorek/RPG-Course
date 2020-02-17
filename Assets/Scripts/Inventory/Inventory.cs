@@ -13,6 +13,7 @@ public class Inventory : MonoBehaviour
     private Transform itemRoot;
     
     public Item ActiveItem { get; private set; }
+    public List<Item> Items => items;
 
     private void Awake()
     {

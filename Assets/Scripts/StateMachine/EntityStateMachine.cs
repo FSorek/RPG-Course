@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class EntityStateMachine : MonoBehaviour
 {
+    public event Action<IState> OnEntityStateChanged = delegate {  };
+    
     private StateMachine stateMachine;
     private NavMeshAgent navMeshAgent;
     private Entity entity;
@@ -13,9 +15,11 @@ public class EntityStateMachine : MonoBehaviour
     private void Awake()
     {
         var player = FindObjectOfType<Player>();
-        stateMachine = new StateMachine();
         navMeshAgent = GetComponent<NavMeshAgent>();
         entity = GetComponent<Entity>();
+        stateMachine = new StateMachine();
+
+        stateMachine.OnStateChanged += state => OnEntityStateChanged(state);
         
         var idle = new Idle();
         var chasePlayer = new ChasePlayer(navMeshAgent, player);
