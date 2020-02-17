@@ -19,7 +19,6 @@ public class Dead : IState
 
     public void OnEnter()
     {
-        // drop loot
         despawnTime = Time.time + DESPAWN_DELAY;
     }
 
