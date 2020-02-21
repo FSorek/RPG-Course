@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class Item : MonoBehaviour
     [SerializeField] private CrosshairDefinition crosshairDefinition;
     [SerializeField] private UseAction[] actions = new UseAction[0];
     [SerializeField] private Sprite icon;
+    
+    public event Action OnPickedUp = delegate {  };
 
     public Sprite Icon => icon;
     public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
@@ -24,6 +27,7 @@ public class Item : MonoBehaviour
         if (inventory != null)
         {
             inventory.Pickup(this);
+            OnPickedUp.Invoke();
         }
     }
 
