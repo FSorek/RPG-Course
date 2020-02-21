@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        if(Pause.Active)
+            return;
+        
         mover.Tick();
         rotator.Tick();
         PlayerInput.Tick();

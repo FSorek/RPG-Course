@@ -11,6 +11,9 @@ public class Rotator
 
     public void Tick()
     {
+        if(Pause.Active)
+            return;
+        
         var rotation = new Vector3(0, player.PlayerInput.MouseX, 0);
         player.transform.Rotate(rotation);
     }

@@ -6,10 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class GameStateMachine : MonoBehaviour
 {
+    private static bool initialized;
+    
     private StateMachine stateMachine;
 
     private void Awake()
     {
+        if (initialized)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        initialized = true;
+        DontDestroyOnLoad(gameObject);
+        
         stateMachine = new StateMachine();
         
         var menu = new Menu();
@@ -23,6 +34,19 @@ public class GameStateMachine : MonoBehaviour
             loading,
             play,
             loading.Finished);
+        stateMachine.AddTransition(
+            play,
+            pause,
+            () => Input.GetKeyDown(KeyCode.Escape));
+        stateMachine.AddTransition(
+            pause,
+            play,
+            () => Input.GetKeyDown(KeyCode.Escape));
+    }
+
+    private void Update()
+    {
+        stateMachine.Tick();
     }
 }
 
@@ -76,16 +100,21 @@ public class LoadLevel : IState
 }
 public class Pause : IState
 {
+    public static bool Active { get; private set; }
     public void Tick()
     {
     }
 
     public void OnEnter()
     {
+        Active = true;
+        Time.timeScale = 0;
     }
 
     public void OnExit()
     {
+        Active = false;
+        Time.timeScale = 1;
     }
 }
 
