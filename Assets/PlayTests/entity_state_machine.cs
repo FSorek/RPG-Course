@@ -6,7 +6,7 @@ using UnityEngine.TestTools;
 
 namespace state_machine
 {
-    public class entity_space_machine
+    public class entity_state_machine
     {
         [UnityTest] 
         public IEnumerator starts_in_idle_state()

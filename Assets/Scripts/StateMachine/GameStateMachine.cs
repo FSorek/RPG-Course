@@ -10,6 +10,7 @@ public class GameStateMachine : MonoBehaviour
     private static bool initialized;
     
     private StateMachine stateMachine;
+    public Type CurrentStateType => stateMachine.CurrentState.GetType();
 
     private void Awake()
     {
