@@ -4,18 +4,18 @@ using UnityEngine.UI;
 public class UIInventorySlot : MonoBehaviour
 {
     [SerializeField] private Image image;
-    private IItem item;
-    public bool IsEmpty => item == null;
+    public bool IsEmpty => Item == null;
     public Sprite Icon => image.sprite;
+    public IItem Item { get; private set; }
 
     public void SetItem(IItem inventoryItem)
     {
-        item = inventoryItem;
-        image.sprite = item != null ? item.Icon : null;
+        Item = inventoryItem;
+        image.sprite = Item != null ? Item.Icon : null;
     }
 
     public void Clear()
     {
-        item = null;
+        Item = null;
     }
 }

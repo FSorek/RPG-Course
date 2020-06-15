@@ -29,6 +29,19 @@ namespace PlayTests
         }
         
         // Change Slots / Move
+        [Test]
+        public void can_move_item_to_empty_slot()
+        {
+            Inventory inventory = new GameObject("INVENTORY").AddComponent<Inventory>();
+            Item item = new GameObject("ITEM", typeof(SphereCollider)).AddComponent<Item>();
+            inventory.Pickup(item);
+            
+            Assert.AreEqual(item, inventory.GetItemInSlot(0));
+
+            inventory.Move(0, 4);
+            
+            Assert.AreEqual(item, inventory.GetItemInSlot(4));
+        }
         
         // Remove Items
         // Drop Items on Ground
