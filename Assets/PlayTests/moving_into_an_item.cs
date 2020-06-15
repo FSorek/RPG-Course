@@ -15,10 +15,11 @@ namespace a_player
         [UnitySetUp]
         public IEnumerator init()
         {
+            PlayerInput.Instance = Substitute.For<IPlayerInput>();
             yield return Helpers.LoadItemsTestsScene();
             player = Helpers.GetPlayer();
 
-            player.PlayerInput.Vertical.Returns(1f);
+            PlayerInput.Instance.Vertical.Returns(1f);
             
             item = Object.FindObjectOfType<Item>();
         }
@@ -27,7 +28,7 @@ namespace a_player
         public IEnumerator picks_up_and_equips_item()
         {
             Assert.AreNotSame(item, player.GetComponent<Inventory>().ActiveItem);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             Assert.AreSame(item, player.GetComponent<Inventory>().ActiveItem);
         }
         

@@ -15,7 +15,7 @@ public class Mover : IMover
 
     public void Tick()
     {
-        Vector3 moveInput = new Vector3(player.PlayerInput.Horizontal,0, player.PlayerInput.Vertical);
+        Vector3 moveInput = new Vector3(PlayerInput.Instance.Horizontal,0, PlayerInput.Instance.Vertical);
         Vector3 movement = player.transform.rotation * moveInput;
         characterController.SimpleMove(movement);
     }

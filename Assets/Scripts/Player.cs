@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public IPlayerInput PlayerInput { get; set; } = new PlayerInput();
-
     private CharacterController chatacterController;
     private IMover mover;
     private Rotator rotator;
@@ -16,7 +14,7 @@ public class Player : MonoBehaviour
         chatacterController = GetComponent<CharacterController>();
         mover = new Mover(this);
         rotator = new Rotator(this);
-        PlayerInput.MoveTypeToggle += MoveTypeToggle;
+        PlayerInput.Instance.MoveTypeToggle += MoveTypeToggle;
     }
 
     private void MoveTypeToggle()
@@ -35,6 +33,5 @@ public class Player : MonoBehaviour
         
         mover.Tick();
         rotator.Tick();
-        PlayerInput.Tick();
     }
 }

@@ -7,7 +7,15 @@ using UnityEngine.TestTools;
 
 namespace a_player
 {
-    public class with_positive_vertical_input
+    public class player_input_test
+    {
+        [SetUp]
+        public void setup()
+        {
+            PlayerInput.Instance = Substitute.For<IPlayerInput>();
+        }
+    }
+    public class with_positive_vertical_input : player_input_test
     {
         [UnityTest]
         public IEnumerator moves_forward()
@@ -15,7 +23,7 @@ namespace a_player
             yield return Helpers.LoadMovementTestsScene();
             var player = Helpers.GetPlayer();
             
-            player.PlayerInput.Vertical.Returns(1f);
+            PlayerInput.Instance.Vertical.Returns(1f);
 
             float startingZPos = player.transform.position.z;
             
@@ -26,7 +34,7 @@ namespace a_player
             Assert.Greater(endingZPos, startingZPos);
         }
 
-        public class with_positive_horizontal_input
+        public class with_positive_horizontal_input : player_input_test
         {
             [UnityTest]
             public IEnumerator moves_right()
@@ -34,7 +42,7 @@ namespace a_player
                 yield return Helpers.LoadMovementTestsScene();
                 var player = Helpers.GetPlayer();
                 
-                player.PlayerInput.Horizontal.Returns(1f);
+                PlayerInput.Instance.Horizontal.Returns(1f);
 
                 float startingXPos = player.transform.position.x;
             
@@ -46,7 +54,7 @@ namespace a_player
             }
         }
 
-        public class with_negative_mouse_x
+        public class with_negative_mouse_x : player_input_test
         {
             [UnityTest]
             public IEnumerator turns_left()
@@ -54,7 +62,7 @@ namespace a_player
                 yield return Helpers.LoadMovementTestsScene();
                 var player = Helpers.GetPlayer();
 
-                player.PlayerInput.MouseX.Returns(-1f);
+                PlayerInput.Instance.MouseX.Returns(-1f);
                 var originalRotation = player.transform.rotation;
                 
                 yield return new WaitForSeconds(0.5f);
@@ -64,7 +72,7 @@ namespace a_player
             }
         }
         
-        public class with_positive_mouse_x
+        public class with_positive_mouse_x : player_input_test
         {
             [UnityTest]
             public IEnumerator turns_left()
@@ -72,7 +80,7 @@ namespace a_player
                 yield return Helpers.LoadMovementTestsScene();
                 var player = Helpers.GetPlayer();
 
-                player.PlayerInput.MouseX.Returns(1f);
+                PlayerInput.Instance.MouseX.Returns(1f);
                 var originalRotation = player.transform.rotation;
                 
                 yield return new WaitForSeconds(0.5f);

@@ -14,7 +14,7 @@ public class Rotator
         if(Pause.Active)
             return;
         
-        var rotation = new Vector3(0, player.PlayerInput.MouseX, 0);
+        var rotation = new Vector3(0, PlayerInput.Instance.MouseX, 0);
         player.transform.Rotate(rotation);
     }
 }
