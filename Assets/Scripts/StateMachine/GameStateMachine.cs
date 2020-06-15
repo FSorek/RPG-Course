@@ -7,20 +7,21 @@ using UnityEngine.SceneManagement;
 public class GameStateMachine : MonoBehaviour
 {
     public static event Action<IState> OnGameStateChanged = delegate {  };
-    private static bool initialized;
+    private static GameStateMachine instance;
     
     private StateMachine stateMachine;
     public Type CurrentStateType => stateMachine.CurrentState.GetType();
 
     private void Awake()
     {
-        if (initialized)
+        if (instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        initialized = true;
+        instance = this;
+
         DontDestroyOnLoad(gameObject);
         
         stateMachine = new StateMachine();
