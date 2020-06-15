@@ -42,6 +42,21 @@ namespace state_machine
             yield return new WaitUntil(() => statemachine.CurrentStateType == typeof(Play));
             Assert.AreEqual(typeof(Play), statemachine.CurrentStateType);
         }
+        
+        [UnityTest]
+        public IEnumerator switches_from_play_to_pause_when_pause_button_pressed()
+        {
+            yield return Helpers.LoadMenuScene();
+            var statemachine = Object.FindObjectOfType<GameStateMachine>();
+            
+            PlayButton.LevelToLoad = "Level1";
+            
+            yield return new WaitUntil(() => statemachine.CurrentStateType == typeof(Play));
+            
+            //hit pause
+            
+            Assert.AreEqual(typeof(Pause), statemachine.CurrentStateType);
+        }
 
         [UnityTest]
         public IEnumerator only_allows_one_instance_to_exist()

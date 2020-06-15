@@ -22,4 +22,6 @@ public class PlayerInput : IPlayerInput
         if (Input.GetKeyDown(KeyCode.Alpha1))
             MoveTypeToggle();
     }
+
+    public bool PausePressed { get; }
 }
