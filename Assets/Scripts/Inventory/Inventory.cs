@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public const int DEFAULT_INVENTORY_SIZE = 25;
     public event Action<Item> ActiveItemChanged = delegate {  };
     public event Action<Item> ItemPickedUp = delegate {  };
     
     
     [SerializeField] private Transform rightHand;
-    private List<Item> items = new List<Item>();
+    private Item[] items = new Item[DEFAULT_INVENTORY_SIZE];
     private Transform itemRoot;
-    
+
     public Item ActiveItem { get; private set; }
-    public List<Item> Items => items;
+    public List<Item> Items => items.ToList();
+    public int Count => items.Count(t => t != null);
 
     private void Awake()
     {
@@ -21,14 +24,31 @@ public class Inventory : MonoBehaviour
         itemRoot.transform.SetParent(transform);
     }
 
-    public void Pickup(Item item)
+    public void Pickup(Item item, int? slot = null)
     {
-        items.Add(item);
+        if (slot.HasValue == false)
+            slot = FindFirstAvailableSlot();
+        
+        if(slot.HasValue == false)
+            return;
+        
+        items[slot.Value] = item;
         item.transform.SetParent(itemRoot);
         ItemPickedUp(item);
         item.WasPickedUp = true;
         
         Equip(item);
+    }
+
+    private int? FindFirstAvailableSlot()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] == null)
+                return i;
+        }
+
+        return null;
     }
 
     public void Equip(Item item)
@@ -47,4 +67,8 @@ public class Inventory : MonoBehaviour
         ActiveItemChanged(item);
     }
 
+    public Item GetItemInSlot(int slot)
+    {
+        return items[slot];
+    }
 }
