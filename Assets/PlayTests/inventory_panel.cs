@@ -21,7 +21,7 @@ namespace PlayTests
         public void bound_to_empty_inventory_has_all_slots_empty()
         {
             var inventoryPanel = GetInventoryPanel();
-            var inventory = GetInventory();
+            var inventory = GetInventory(0);
 
             inventoryPanel.Bind(inventory);
             
@@ -29,16 +29,22 @@ namespace PlayTests
         }
 
         [Test]
-        public void bound_to_inventory_with_one_item_fills_only_first_slot()
+        public void bound_to_inventory_fills_slot_for_each_item([NUnit.Framework.Range(0, 25)] int numberOfItems)
         {
             var inventoryPanel = GetInventoryPanel();
-            var inventory = GetInventory();
-            var item = GetItem();
-            inventory.Pickup(item);
+            var inventory = GetInventory(numberOfItems);
+
+            foreach (var slot in inventoryPanel.Slots)
+            {
+                Assert.IsTrue(slot.IsEmpty);
+            }
             
-            Assert.IsTrue(inventoryPanel.Slots[0].IsEmpty);
             inventoryPanel.Bind(inventory);
-            Assert.IsFalse(inventoryPanel.Slots[0].IsEmpty);
+            for (int i = 0; i < inventoryPanel.SlotCount; i++)
+            {
+                bool shouldBeEmpty = i >= numberOfItems;
+                Assert.AreEqual(shouldBeEmpty, inventoryPanel.Slots[i].IsEmpty);
+            }
         }
 
         private Item GetItem()
@@ -46,9 +52,16 @@ namespace PlayTests
             var itemGameObject = new GameObject("Item", typeof(SphereCollider));
             return itemGameObject.AddComponent<Item>();
         }
-        private Inventory GetInventory()
+        private Inventory GetInventory(int numberOfItems)
         {
-            return new GameObject().AddComponent<Inventory>();
+            var inventory = new GameObject().AddComponent<Inventory>();
+            for (int i = 0; i < numberOfItems; i++)
+            {
+                var item = GetItem();
+                inventory.Pickup(item);
+            }
+
+            return inventory;
         }
 
         private UIInventoryPanel GetInventoryPanel()
