@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+public interface IItem
+{
+    Sprite Icon { get; }
+}
+
 [RequireComponent(typeof(Collider))]
-public class Item : MonoBehaviour
+public class Item : MonoBehaviour, IItem
 {
     [SerializeField] private CrosshairDefinition crosshairDefinition;
     [SerializeField] private UseAction[] actions = new UseAction[0];

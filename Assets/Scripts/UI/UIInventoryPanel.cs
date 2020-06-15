@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class UIInventoryPanel : MonoBehaviour
 {
+    private Inventory inventory;
     public UIInventorySlot[] Slots { get; private set; }
 
     private void Awake()
@@ -16,6 +17,32 @@ public class UIInventoryPanel : MonoBehaviour
 
     public void Bind(Inventory inventory)
     {
+        if (inventory != null)
+            inventory.ItemPickedUp -= HandleItemPickedUp;
+        
+        this.inventory = inventory;
+        
+        if(inventory != null)
+        {
+            inventory.ItemPickedUp += HandleItemPickedUp;
+            RefreshSlots();
+        }
+        else
+        {
+            ClearSlots();
+        }
+    }
+
+    private void ClearSlots()
+    {
+        foreach (var slot in Slots)
+        {
+            slot.Clear();
+        }
+    }
+
+    private void RefreshSlots()
+    {
         for (int i = 0; i < Slots.Length; i++)
         {
             var slot = Slots[i];
@@ -25,5 +52,10 @@ public class UIInventoryPanel : MonoBehaviour
             else
                 slot.Clear();
         }
+    }
+
+    private void HandleItemPickedUp(Item item)
+    {
+        RefreshSlots();
     }
 }
