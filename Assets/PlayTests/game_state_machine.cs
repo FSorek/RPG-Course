@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using a_player;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 namespace state_machine
 {
-    public class game_state_machine
+    public class game_state_machine : player_input_test
     {
         [TearDown]
         public void teardown()
@@ -52,8 +53,9 @@ namespace state_machine
             PlayButton.LevelToLoad = "Level1";
             
             yield return new WaitUntil(() => statemachine.CurrentStateType == typeof(Play));
-            
-            //hit pause
+
+            PlayerInput.Instance.PausePressed.Returns(true);
+            yield return null;
             
             Assert.AreEqual(typeof(Pause), statemachine.CurrentStateType);
         }

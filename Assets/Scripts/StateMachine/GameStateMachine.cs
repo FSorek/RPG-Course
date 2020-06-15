@@ -45,11 +45,11 @@ public class GameStateMachine : MonoBehaviour
         stateMachine.AddTransition(
             play,
             pause,
-            () => Input.GetKeyDown(KeyCode.Escape));
+            () => PlayerInput.Instance.PausePressed);
         stateMachine.AddTransition(
             pause,
             play,
-            () => Input.GetKeyDown(KeyCode.Escape));
+            () => PlayerInput.Instance.PausePressed);
         stateMachine.AddTransition(
             pause,
             menu,

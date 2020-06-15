@@ -28,7 +28,7 @@ public class LootSystem : MonoBehaviour
             lootItemHolder.gameObject.SetActive(true);
             AssignItemHolder(lootItemHolder, item, droppingTransform);
         }
-        else
+        else if(instance != null)
         {
             instance.StartCoroutine(instance.DropAsync(item, droppingTransform));
         }

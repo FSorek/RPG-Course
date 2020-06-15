@@ -51,9 +51,9 @@ namespace a_player
 
         public static IEnumerator LoadMenuScene()
         {
-                        var operation = SceneManager.LoadSceneAsync("Menu");
-                        while (operation.isDone == false)
-                            yield return null;
+            var operation = SceneManager.LoadSceneAsync("Menu");
+            while (operation.isDone == false)
+                yield return null;
         }
     }
 }
