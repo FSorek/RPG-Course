@@ -8,6 +8,12 @@ namespace state_machine
 {
     public class game_state_machine
     {
+        [TearDown]
+        public void teardown()
+        {
+            Object.Destroy(Object.FindObjectOfType<GameStateMachine>());
+        }
+        
         [UnityTest]
         public IEnumerator switches_to_loading_when_level_to_load_selected()
         {
