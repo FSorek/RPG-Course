@@ -25,9 +25,14 @@ public class UIInventoryPanel : MonoBehaviour
     private void HandleSlotClicked(UIInventorySlot slot)
     {
         if (Selected != null)
+        {
             Swap(slot);
-        else
+            Selected = null;
+        }
+        else if(slot.IsEmpty == false)
+        {
             Selected = slot;
+        }
     }
 
     private void Swap(UIInventorySlot slot)
