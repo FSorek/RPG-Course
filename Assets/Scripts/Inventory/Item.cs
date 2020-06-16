@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class Item : MonoBehaviour, IItem
     public Sprite Icon => icon;
     public CrosshairDefinition CrosshairDefinition => crosshairDefinition;
     public UseAction[] Actions => actions;
+    public StatMod[] StatMods => statMods;
     public bool WasPickedUp { get; set; }
 
 

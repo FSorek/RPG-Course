@@ -8,13 +8,21 @@ public class Player : MonoBehaviour
     private CharacterController chatacterController;
     private IMover mover;
     private Rotator rotator;
+    private Inventory inventory;
+
+    public Stats Stats { get; private set; }
 
     private void Awake()
     {
         chatacterController = GetComponent<CharacterController>();
         mover = new Mover(this);
         rotator = new Rotator(this);
+        inventory = GetComponent<Inventory>();
+        
         PlayerInput.Instance.MoveTypeToggle += MoveTypeToggle;
+        
+        Stats = new Stats();
+        Stats.Bind(inventory);
     }
 
     private void MoveTypeToggle()

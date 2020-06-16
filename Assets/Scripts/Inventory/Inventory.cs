@@ -9,6 +9,9 @@ public class Inventory : MonoBehaviour
     public event Action<Item> ActiveItemChanged = delegate {  };
     public event Action<Item> ItemPickedUp = delegate {  };
     public event Action<int> OnItemChanged = delegate {  };
+    public event Action<Item> ItemEquipped = delegate {  };
+    public event Action<Item> ItemUnequipped = delegate {  };
+
     
     
     [SerializeField] private Transform rightHand;
@@ -58,6 +61,7 @@ public class Inventory : MonoBehaviour
         {
             ActiveItem.transform.SetParent(itemRoot);
             ActiveItem.gameObject.SetActive(false);
+            ItemUnequipped(item);
         }
         
         Debug.Log($"Equipped item {item.gameObject.name}");
@@ -65,7 +69,9 @@ public class Inventory : MonoBehaviour
         item.transform.localPosition = Vector3.zero;
         item.transform.localRotation = Quaternion.identity;
         ActiveItem = item;
+        
         ActiveItemChanged(item);
+        ItemEquipped(item);
     }
 
     public Item GetItemInSlot(int slot)
