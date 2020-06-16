@@ -32,4 +32,5 @@ public class PlayerInput : MonoBehaviour, IPlayerInput
 
     public bool PausePressed => Input.GetKeyDown(KeyCode.Escape);
     public Vector2 MousePosition => Input.mousePosition;
+    public bool GetKeyDown(KeyCode keyCode) => Input.GetKeyDown(keyCode);
 }

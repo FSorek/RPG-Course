@@ -7,10 +7,12 @@ public class UIInventorySlot : MonoBehaviour, IPointerDownHandler, IEndDragHandl
 {
     public event Action<UIInventorySlot> OnSlotClicked = delegate{};
     [SerializeField] private Image image;
+    [SerializeField] private int sortIndex;
     public bool IsEmpty => Item == null;
     public Sprite Icon => image.sprite;
     public IItem Item { get; private set; }
     public bool IconImageEnabled => image.enabled;
+    public int SortIndex => sortIndex;
 
     public void SetItem(IItem inventoryItem)
     {
