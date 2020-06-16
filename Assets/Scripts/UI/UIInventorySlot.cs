@@ -3,10 +3,17 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventorySlot : MonoBehaviour, IPointerDownHandler, IEndDragHandler, IDragHandler
+public class UIInventorySlot : MonoBehaviour, 
+    IPointerDownHandler, 
+    IEndDragHandler, 
+    IDragHandler, 
+    IPointerEnterHandler, 
+    IPointerExitHandler
 {
     public event Action<UIInventorySlot> OnSlotClicked = delegate{};
     [SerializeField] private Image image;
+    [SerializeField] private Image selectedImage;
+    [SerializeField] private Image focusedImage;
     [SerializeField] private int sortIndex;
     public bool IsEmpty => Item == null;
     public Sprite Icon => image.sprite;
@@ -40,5 +47,34 @@ public class UIInventorySlot : MonoBehaviour, IPointerDownHandler, IEndDragHandl
             OnPointerDown(eventData);
     }
 
+
     public void OnDrag(PointerEventData eventData){}
+
+    public void BecomeSelected()
+    {
+        if (selectedImage)
+            selectedImage.enabled = true;
+    }
+
+    public void BecomeUnselected()
+    {
+        if (selectedImage)
+            selectedImage.enabled = false;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (focusedImage)
+            focusedImage.enabled = true;
+    }
+
+
+    public void OnPointerExit(PointerEventData eventData) => DisableFocusedImage();
+    private void OnDisable() => DisableFocusedImage();
+
+    private void DisableFocusedImage()
+    {
+        if (focusedImage)
+            focusedImage.enabled = false;
+    }
 }
