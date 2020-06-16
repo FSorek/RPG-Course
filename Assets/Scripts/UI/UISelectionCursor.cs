@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UISelectionCursor : MonoBehaviour
@@ -20,5 +21,10 @@ public class UISelectionCursor : MonoBehaviour
     {
         image.sprite = inventoryPanel.Selected ? inventoryPanel.Selected.Icon : null;
         image.enabled = image.sprite != null;
+    }
+
+    private void Update()
+    {
+        transform.position = PlayerInput.Instance.MousePosition;
     }
 }

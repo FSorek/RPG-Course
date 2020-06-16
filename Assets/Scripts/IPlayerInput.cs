@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public interface IPlayerInput
 {
@@ -8,4 +9,5 @@ public interface IPlayerInput
     float Horizontal { get; }
     float MouseX { get; }
     bool PausePressed { get; }
+    Vector2 MousePosition { get; }
 }

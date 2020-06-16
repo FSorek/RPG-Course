@@ -30,5 +30,6 @@ public class PlayerInput : MonoBehaviour, IPlayerInput
             MoveTypeToggle();
     }
 
-    public bool PausePressed { get; }
+    public bool PausePressed => Input.GetKeyDown(KeyCode.Escape);
+    public Vector2 MousePosition => Input.mousePosition;
 }
