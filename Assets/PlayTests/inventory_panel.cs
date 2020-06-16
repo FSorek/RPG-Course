@@ -8,6 +8,17 @@ using UnityEngine.TestTools;
 
 namespace PlayTests
 {
+    public class inventory_selection_with_nothing_selected
+    {
+        [Test]
+        public void clicking_non_empty_slot_selects_slot()
+        {
+            var inventoryPanel = inventory_panel.GetInventoryPanel();
+            var slot = inventoryPanel.Slots[0];
+            slot.OnPointerClick(null);
+            Assert.AreSame(slot, inventoryPanel.Selected);
+        }
+    }
     public class ui_inventory_slot
     {
         [Test]

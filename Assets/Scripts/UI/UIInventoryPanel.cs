@@ -7,14 +7,24 @@ public class UIInventoryPanel : MonoBehaviour
 {
     private Inventory inventory;
     public UIInventorySlot[] Slots { get; private set; }
-
+    public int SlotCount => Slots.Length;
+    public UIInventorySlot Selected { get; private set; }
     private void Awake()
     {
         Slots = GetComponentsInChildren<UIInventorySlot>();
+        RegisterSlotsForClickCallback();
     }
-
-    public int SlotCount => Slots.Length;
-
+    private void RegisterSlotsForClickCallback()
+    {
+        foreach (var slot in Slots)
+        {
+            slot.OnSlotClicked += HandleSlotClicked;
+        }
+    }
+    private void HandleSlotClicked(UIInventorySlot slot)
+    {
+        Selected = slot;
+    }
     public void Bind(Inventory inventory)
     {
         if (inventory != null)
