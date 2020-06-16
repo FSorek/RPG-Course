@@ -19,5 +19,14 @@ namespace PlayTests
             inventoryPanel.Slots[0].OnPointerClick(null);
             Assert.IsTrue(uiCursor.IconVisible);
         }
+
+        [Test]
+        public void when_item_selected_sets_icon_image_to_correct_sprite()
+        {
+            var inventoryPanel = inventory_helpers.GetInventoryPanelWithItems(1);
+            var uiCursor = inventory_helpers.GetSelectionCursor();
+            inventoryPanel.Slots[0].OnPointerClick(null);
+            Assert.AreSame(inventoryPanel.Slots[0].Icon, uiCursor.Icon);
+        }
     }
 }

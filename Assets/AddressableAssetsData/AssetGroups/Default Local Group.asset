@@ -25,6 +25,10 @@ MonoBehaviour:
     m_Address: Assets/Prefabs/UI/SelectionCursor.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: b16ad0694073d794db90e77c7a1ab307
+    m_Address: Assets/Prefabs/Items/TestItem.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 6ef91765f181ffd42a03e66793a77605, type: 2}
   m_SchemaSet:
