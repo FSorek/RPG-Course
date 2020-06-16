@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class UIInventoryPanel : MonoBehaviour
@@ -23,8 +24,28 @@ public class UIInventoryPanel : MonoBehaviour
     }
     private void HandleSlotClicked(UIInventorySlot slot)
     {
-        Selected = slot;
+        if (Selected != null)
+            Swap(slot);
+        else
+            Selected = slot;
     }
+
+    private void Swap(UIInventorySlot slot)
+    {
+        inventory.Move(GetSlotIndex(Selected), GetSlotIndex(slot));
+    }
+
+    private int GetSlotIndex(UIInventorySlot selected)
+    {
+        for (int i = 0; i < SlotCount; i++)
+        {
+            if (Slots[i] == selected)
+                return i;
+        }
+
+        return -1;
+    }
+
     public void Bind(Inventory inventory)
     {
         if (inventory != null)
