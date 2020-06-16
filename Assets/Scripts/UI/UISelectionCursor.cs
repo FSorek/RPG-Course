@@ -5,15 +5,20 @@ public class UISelectionCursor : MonoBehaviour
 {
     [SerializeField] private Image image;
     private UIInventoryPanel inventoryPanel;
-    public bool IconVisible => image != null && image.sprite != null;
+    public bool IconVisible => image.enabled && image != null && image.sprite != null;
     public Sprite Icon => image.sprite;
 
-    private void Awake() => inventoryPanel = FindObjectOfType<UIInventoryPanel>();
+    private void Awake()
+    {
+        inventoryPanel = FindObjectOfType<UIInventoryPanel>();
+        image.enabled = false;
+    }
+
     private void OnEnable() => inventoryPanel.OnSelectionChanged += HandleSelectionChanged;
     private void OnDisable() => inventoryPanel.OnSelectionChanged -= HandleSelectionChanged;
     private void HandleSelectionChanged()
     {
-        image.sprite = inventoryPanel.Selected.Icon;
-        //IconVisible = !inventoryPanel.Selected.IsEmpty;
+        image.sprite = inventoryPanel.Selected ? inventoryPanel.Selected.Icon : null;
+        image.enabled = image.sprite != null;
     }
 }
