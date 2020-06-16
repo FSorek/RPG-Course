@@ -30,5 +30,11 @@ namespace PlayTests
             var itemGameObject = new GameObject("Item", typeof(SphereCollider));
             return itemGameObject.AddComponent<Item>();
         }
+
+        public static UISelectionCursor GetSelectionCursor()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<UISelectionCursor>("Assets/Prefabs/UI/SelectionCursor.prefab");
+            return Object.Instantiate(prefab);
+        }
     }
 }

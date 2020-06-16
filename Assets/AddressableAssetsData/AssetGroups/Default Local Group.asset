@@ -1,3 +1,33 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:07179ca06c4c83d0c514cdc9d8c0a9d8f1145056249727938da32dfc7563c1c1
-size 946
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 0cae84bf02d9a644bba6caee90184685
+  m_SerializeEntries:
+  - m_GUID: 0f78f3841a5fca0458c655a8c95df356
+    m_Address: LootItemHolder.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3aac8ba6b70274d43885a72aebae865a
+    m_Address: Assets/Prefabs/UI/SelectionCursor.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 6ef91765f181ffd42a03e66793a77605, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 6836db40d8be448479c753c70a496520, type: 2}
+    - {fileID: 11400000, guid: 2e3c795395136794dbf1ff7287cc3ade, type: 2}
