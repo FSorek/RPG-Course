@@ -24,7 +24,7 @@ namespace PlayTests
         {
             var inventoryPanel = inventory_helpers.GetInventoryPanelWithItems(1);
             var uiCursor = inventory_helpers.GetSelectionCursor();
-            inventoryPanel.Slots[0].OnPointerClick(null);
+            inventoryPanel.Slots[0].OnPointerDown(null);
             Assert.IsTrue(uiCursor.IconVisible);
         }
 
@@ -33,7 +33,7 @@ namespace PlayTests
         {
             var inventoryPanel = inventory_helpers.GetInventoryPanelWithItems(1);
             var uiCursor = inventory_helpers.GetSelectionCursor();
-            inventoryPanel.Slots[0].OnPointerClick(null);
+            inventoryPanel.Slots[0].OnPointerDown(null);
             Assert.AreSame(inventoryPanel.Slots[0].Icon, uiCursor.Icon);
         }
         
@@ -44,9 +44,9 @@ namespace PlayTests
             var uiCursor = inventory_helpers.GetSelectionCursor();
             
             Assert.IsFalse(uiCursor.IconVisible);
-            inventoryPanel.Slots[0].OnPointerClick(null);
+            inventoryPanel.Slots[0].OnPointerDown(null);
             Assert.IsTrue(uiCursor.IconVisible);
-            inventoryPanel.Slots[0].OnPointerClick(null);
+            inventoryPanel.Slots[0].OnPointerDown(null);
             Assert.IsFalse(uiCursor.IconVisible);
         }
         

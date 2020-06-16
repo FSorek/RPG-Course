@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIInventorySlot : MonoBehaviour, IPointerClickHandler
+public class UIInventorySlot : MonoBehaviour, IPointerDownHandler, IEndDragHandler, IDragHandler
 {
     public event Action<UIInventorySlot> OnSlotClicked = delegate{};
     [SerializeField] private Image image;
@@ -24,8 +24,19 @@ public class UIInventorySlot : MonoBehaviour, IPointerClickHandler
         Item = null;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         OnSlotClicked(this);
     }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        var droppedOnSlot = eventData.pointerCurrentRaycast.gameObject?.GetComponentInParent<UIInventorySlot>();
+        if(droppedOnSlot != null)
+            droppedOnSlot.OnPointerDown(eventData);
+        else
+            OnPointerDown(eventData);
+    }
+
+    public void OnDrag(PointerEventData eventData){}
 }
