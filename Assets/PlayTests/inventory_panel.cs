@@ -49,6 +49,19 @@ namespace PlayTests
     }
     public class inventory_panel
     {
+        [UnityTearDown]
+        public IEnumerator teardown()
+        {
+            var inventory = Object.FindObjectOfType<Inventory>();
+            var inventoryPanel = Object.FindObjectOfType<UIInventoryPanel>();
+            
+            if(inventory != null)
+                Object.Destroy(inventory.gameObject);
+            if(inventoryPanel != null)
+                Object.Destroy(inventoryPanel.gameObject);
+
+            yield return null;
+        }
         [Test]
         public void has_25_slots()
         {
@@ -85,6 +98,9 @@ namespace PlayTests
                 bool shouldBeEmpty = i >= numberOfItems;
                 Assert.AreEqual(shouldBeEmpty, inventoryPanel.Slots[i].IsEmpty);
             }
+            
+            Object.Destroy(inventoryPanel.gameObject);
+            Object.Destroy(inventory.gameObject);
         }
 
         [Test]
